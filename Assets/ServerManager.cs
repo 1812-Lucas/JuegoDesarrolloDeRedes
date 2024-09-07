@@ -6,7 +6,7 @@ using UnityEngine;
 public class ServerManager : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 {
     [SerializeField] private GameObject _NetworkPlayerPref;
-    [Networked, Capacity(12)] private NetworkDictionary<PlayerRef, Player_Test> Players => default; 
+   
 
     public static ServerManager instance;
 
@@ -22,11 +22,7 @@ public class ServerManager : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
     public void PlayerLeft(PlayerRef player)
     {
-        if(Players.TryGet(player,out Player_Test playerComp))
-        {
-            Players.Remove(player);
-            Runner.Despawn(playerComp.Object);
-        }
+
     }
 
     private void Awake()
