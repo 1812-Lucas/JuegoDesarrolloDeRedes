@@ -12,8 +12,13 @@ public class Player_Test : NetworkBehaviour
     [SerializeField] private CameraFollow _CamHolder;
 
     [Header("MovementVariables")]
-    [SerializeField] float _Speed,_MaxSpeed, _JumpStrenght;
-    [SerializeField]private Vector2 _MoveDirection;
+    [SerializeField] float _Speed, _MaxSpeed, _JumpStrenght;
+    [SerializeField] private Vector2 _MoveDirection;
+    private bool _grounded;
+    public void Grounded(bool IsGrounded)
+    {
+        _grounded = IsGrounded;
+    }
 
     [Networked] private NetworkButtons PreviousButtons { get; set; }
 
@@ -30,11 +35,15 @@ public class Player_Test : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if(GetInput(out NetInput input))
+        if (GetInput(out NetInput input))
         {
             _MoveDirection = input.InputDirection;
             MovementLogic();
             RotateObject();
+            if (input.Buttons.WasPressed(PreviousButtons, InputButton.jump) && _grounded)
+            {
+                JumpLogic();
+            }
             PreviousButtons = input.Buttons;
         }
     }
@@ -55,11 +64,20 @@ public class Player_Test : NetworkBehaviour
 
         //calcular la fuerza de movimiento
         Vector3 _VelocityChange = (_TargetVelocity - _CurrentVel);
+        _VelocityChange = new Vector3(_VelocityChange.x, 0, _VelocityChange.z);
 
         //clamp fuerza
         Vector3.ClampMagnitude(_VelocityChange, _MaxSpeed);
 
-        _NetRb.AddForce(_VelocityChange, ForceMode.VelocityChange); 
+        _NetRb.AddForce(_VelocityChange, ForceMode.VelocityChange);
 
     }
+
+    private void JumpLogic()
+    {
+        Vector3 JumpForce = Vector3.up * _JumpStrenght;
+
+        _NetRb.AddForce(JumpForce, ForceMode.VelocityChange);
+    }
+
 }
