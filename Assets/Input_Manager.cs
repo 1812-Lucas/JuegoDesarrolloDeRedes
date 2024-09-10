@@ -67,6 +67,15 @@ public class Input_Manager : SimulationBehaviour, INetworkRunnerCallbacks
             {
                 buttons.Set(InputButton.jump, false);
             }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                buttons.Set(InputButton.Sprint, true);
+            }
+            else
+            {
+                buttons.Set(InputButton.Sprint, false);
+            }
             _AccumulatedInputs.Buttons = new NetworkButtons(_AccumulatedInputs.Buttons.Bits | buttons.Bits);
             #endregion
         }
