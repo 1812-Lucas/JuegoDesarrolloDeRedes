@@ -10,6 +10,8 @@ public class Player_Test : NetworkBehaviour
     [SerializeField] private Rigidbody _NetRb;
     [SerializeField] private Transform _CameraPos;
     [SerializeField] private CameraFollow _CamHolder;
+    [SerializeField] public NetworkObject _NetworkObject { get; private set; }
+    [SerializeField] private MeshRenderer[] _Meshes;
 
     [Header("MovementVariables")]
     [SerializeField] float _Speed, _MaxSpeed, _JumpStrenght;
@@ -29,12 +31,18 @@ public class Player_Test : NetworkBehaviour
     public override void Spawned()
     {
         _NetRb = GetComponent<Rigidbody>();
+        _NetworkObject = GetComponent<NetworkObject>();
         if (HasInputAuthority)
         {
             _CamHolder = FindObjectOfType<CameraFollow>();
             _CamHolder.targetObj = _CameraPos;
+            foreach(MeshRenderer _Mesh in _Meshes)
+            {
+                _Mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            }
             
         }
+
     }
 
 
