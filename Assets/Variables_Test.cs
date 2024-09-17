@@ -13,7 +13,7 @@ public class VariablesTest : NetworkBehaviour
         Worker  = other.GetComponent<Player_Test>();
         if(Worker!= null)
         {
-            if (Worker.HasStateAuthority)
+            if (Worker.HasStateAuthority && this.HasStateAuthority)
             {
                 _TestVariable += 1;
             }
@@ -22,12 +22,9 @@ public class VariablesTest : NetworkBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other == Worker)
+        if(other == Worker?.GetComponent<Collider>())
         {
-            if (Worker.HasStateAuthority)
-            {
-                Worker = null;
-            }
+           Worker = null;
         }
     }
 }

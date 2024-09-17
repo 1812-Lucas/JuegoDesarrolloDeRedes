@@ -12,8 +12,10 @@ public class DamageTrigger : MonoBehaviour
         var HealthCom = other.GetComponent<HealthComponent>();
         if (HealthCom != null)
         {
+            if (!HealthCom.HasStateAuthority) return;
             if (!IsHealing)
             {
+
                 HealthCom.Rpc_TakeDamage(DmgDealt);
                 print("dealt damage to: " + other.name);
             }

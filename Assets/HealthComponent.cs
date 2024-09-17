@@ -19,7 +19,7 @@ public class HealthComponent : NetworkBehaviour
     [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
     public void Rpc_TakeDamage(float DMG)
     {
-        _Health -= DMG / Runner.ActivePlayers.Count();// esto es para evitar duplicar la cantidad de salud perdida 
+        _Health -= DMG;
 
         if (_Health <= 0)
         {
