@@ -1031,11 +1031,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1802013930 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3690672954098489252, guid: 4a83f9f5650b3884996d0f92857f05c9, type: 3}
-  m_PrefabInstance: {fileID: 573059244960440340}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1902151225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,8 +1222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 429d795b63b7d774785b16ad07f0a1d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  __TestVariable: 0
-  Worker: {fileID: 0}
+  _TestVariable: 0
+  _IsBeingWorkedOn: 0
 --- !u!114 &1983596068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,35 +1314,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3690672954098489252, guid: 4a83f9f5650b3884996d0f92857f05c9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6816961009587029092}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a83f9f5650b3884996d0f92857f05c9, type: 3}
 --- !u!114 &6816961009587029088 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3809691768061384536, guid: 4a83f9f5650b3884996d0f92857f05c9, type: 3}
   m_PrefabInstance: {fileID: 573059244960440340}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802013930}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1199893898, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6816961009587029092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1802013930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98d0a583f1c7f644dab26d001dea5306, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _MoveDir: {x: 0, y: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

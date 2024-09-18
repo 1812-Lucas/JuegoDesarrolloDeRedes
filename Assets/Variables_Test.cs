@@ -5,26 +5,58 @@ using UnityEngine;
 
 public class VariablesTest : NetworkBehaviour
 {
-    [Networked] public float _TestVariable { get; private set; }
-    [SerializeField]Player_Test Worker;
+    [Networked] public float TestVariable { get => default; private set { } }
+    [Networked] public PlayerRef Worker { get => default; private set { } }
+    [Networked] public bool IsBeingWorkedOn { get => default; private set { } }
 
     private void OnTriggerEnter(Collider other)
     {
-        Worker  = other.GetComponent<Player_Test>();
-        if(Worker!= null)
+        var Pscript = other.GetComponent<Player_Test>();
+        if(Pscript != null)
         {
-            if (Worker.HasStateAuthority && this.HasStateAuthority)
+            print(other.gameObject.name);
+            var PlayerMachine = Pscript.Object.StateAuthority;
+            if(PlayerMachine != null && IsBeingWorkedOn == false)
             {
-                _TestVariable += 1;
+                Rpc_Lockworker(PlayerMachine);
             }
+        }
+
+    }
+
+    [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
+    private void Rpc_Lockworker([RpcTarget] PlayerRef PlayerWorking)
+    {
+        if (HasStateAuthority)
+        {
+            print("Player: " + PlayerWorking.PlayerId + "Is working the machinery");
+            Worker = PlayerWorking;
+            IsBeingWorkedOn = true;
+            TestVariable++;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other == Worker?.GetComponent<Collider>())
+        var OtherComp = other.GetComponent<Player_Test>();
+        if (OtherComp != null)
         {
-           Worker = null;
+            print(other.gameObject.name + " Has left trigger");
+            if(OtherComp.Object.StateAuthority == Worker)
+            {
+                Rpc_UnlockWorker();
+            }
+        }
+    }
+
+    [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
+    private void Rpc_UnlockWorker()
+    {
+        if(HasStateAuthority)
+        {
+            Worker = default;
+            IsBeingWorkedOn = false;
+            print("Resetting Work load");
         }
     }
 }
