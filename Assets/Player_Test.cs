@@ -71,6 +71,11 @@ public class Player_Test : NetworkBehaviour
             }
             PreviousButtons = input.Buttons;
         }
+
+        if(_NetRb.velocity.magnitude < 0.1f)
+        {
+            _NetRb.velocity = Vector3.zero;
+        }
     }
 
     private void RotateObject()

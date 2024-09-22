@@ -1,20 +1,36 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class VariablesTest : NetworkBehaviour
 {
-    [Networked] public float TestVariable { get => default; private set { } }
     [Networked] public PlayerRef Worker { get => default; private set { } }
     [Networked] public bool IsBeingWorkedOn { get => default; private set { } }
+
+    [SerializeField] float _TimeToRepair,_TotalRepairAmount;
+
+    public override void FixedUpdateNetwork()
+    {
+        if(!HasStateAuthority) return;
+
+        if (IsBeingWorkedOn)
+        {
+            _TimeToRepair += Runner.DeltaTime;
+        }
+
+        if(_TimeToRepair >= _TotalRepairAmount)
+        {
+            Rpc_RepairTime();
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         var Pscript = other.GetComponent<Player_Test>();
         if(Pscript != null)
         {
-            print(other.gameObject.name);
             var PlayerMachine = Pscript.Object.StateAuthority;
             if(PlayerMachine != null && IsBeingWorkedOn == false)
             {
@@ -29,10 +45,9 @@ public class VariablesTest : NetworkBehaviour
     {
         if (HasStateAuthority)
         {
-            print("Player: " + PlayerWorking.PlayerId + "Is working the machinery");
             Worker = PlayerWorking;
+            print("Player: " + PlayerWorking.PlayerId + "Is working the machinery");
             IsBeingWorkedOn = true;
-            TestVariable++;
         }
     }
 
@@ -41,7 +56,6 @@ public class VariablesTest : NetworkBehaviour
         var OtherComp = other.GetComponent<Player_Test>();
         if (OtherComp != null)
         {
-            print(other.gameObject.name + " Has left trigger");
             if(OtherComp.Object.StateAuthority == Worker)
             {
                 Rpc_UnlockWorker();
@@ -54,9 +68,21 @@ public class VariablesTest : NetworkBehaviour
     {
         if(HasStateAuthority)
         {
-            Worker = default;
             IsBeingWorkedOn = false;
+            Worker = default;
             print("Resetting Work load");
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    void Rpc_RepairTime()
+    {
+        LocalDisableObject();
+    }
+
+    void LocalDisableObject()
+    {
+        _TimeToRepair = 0;
+        this.gameObject.SetActive(false);
     }
 }
