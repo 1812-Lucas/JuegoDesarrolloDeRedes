@@ -12,11 +12,9 @@ public class ServerManager : SimulationBehaviour, IPlayerJoined, IPlayerLeft
 
     public void PlayerJoined(PlayerRef player)
     {
-        if (player == Runner.LocalPlayer)
+        if(player == Runner.LocalPlayer)
         {
             Runner.Spawn(_NetworkPlayerPref, Vector3.up, Quaternion.identity, player);
-           // NetworkObject PlayerObj = Runner.Spawn(_NetworkPlayerPref,Vector3.up,Quaternion.identity,player);
-           // Players.Add(player,PlayerObj.GetComponent<Player_Test>());
         }
     }
 

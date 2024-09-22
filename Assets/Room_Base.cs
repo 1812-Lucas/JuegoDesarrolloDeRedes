@@ -12,6 +12,8 @@ public class Room_Base : NetworkBehaviour
     [Networked] TickTimer RuptureTimer { get => default; set { } }
     [Networked] public int RuptureID { get => default; set { } }
 
+    [Networked] private bool _GameStarted { get => default; set { } } 
+
     private void Awake()
     {
         foreach(var point in _RupturePoints)
@@ -22,12 +24,17 @@ public class Room_Base : NetworkBehaviour
 
     public override void Spawned()
     {
+        GameManager.Instance.AddRoomToList(this);
+    }
+
+    public void InitLogic()
+    {
         if (HasStateAuthority)
         {
             ResetRuptureTimer();
+            _GameStarted = true;
         }
     }
-
 
     private void ResetRuptureTimer()
     {
@@ -37,7 +44,7 @@ public class Room_Base : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         if(HasStateAuthority == false) return;
-        if (RuptureTimer.ExpiredOrNotRunning(Runner))
+        if (RuptureTimer.ExpiredOrNotRunning(Runner) && _GameStarted)
         {
             RandomizeDMGPoint();
             Rpc_CreateRupture();

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using System.Linq;
+
 public class GameManager : NetworkBehaviour
 {
     #region PantallasVyD
@@ -11,13 +13,18 @@ public class GameManager : NetworkBehaviour
     private GameObject winImage;
     [SerializeField]
     private GameObject loseImage;
+    [SerializeField] private List<Room_Base> _RoomsInShip = new List<Room_Base>();
 
+    public delegate void StartAllObjects();
+    public event StartAllObjects Event_InitAllObjects;
     private List<PlayerRef> playerList;
 
     private void Awake()
     {
-        Instance = this;
-
+        if(Instance == null)
+        {
+            Instance = this;
+        }
         playerList = new List<PlayerRef>();
     }
 
@@ -67,4 +74,38 @@ public class GameManager : NetworkBehaviour
         Win();
     }
     #endregion
+
+    public void StartGame()
+    {
+        var PlayerCount = Runner.SessionInfo.PlayerCount;
+        if(this.HasStateAuthority)
+        {
+            if(PlayerCount > 0)
+            {
+                Rpc_StartGame();
+            }
+        }
+        else
+        {
+            print("MissingPlayers to start game");
+        }
+    }
+
+    [Rpc]
+    private void Rpc_StartGame()
+    {
+        print("Starting Game");
+        foreach(Room_Base _Room in _RoomsInShip)
+        {
+            _Room.InitLogic();
+        }
+        Event_InitAllObjects();
+    }
+
+
+
+    public void AddRoomToList(Room_Base NewRoom)
+    {
+        _RoomsInShip.Add(NewRoom);
+    }
 }
