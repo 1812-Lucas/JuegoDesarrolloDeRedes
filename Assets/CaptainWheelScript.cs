@@ -11,13 +11,14 @@ public class CaptainWheelScript : NetworkBehaviour
 
     [Header("Variables")]
     [SerializeField] private float _MaxDistance;
-    [Networked] private float _DistanceTravelled { get => default; set { } }
+    [Networked,OnChangedRender(nameof(updateDisplay))] private float _DistanceTravelled { get => default; set { } }
     [Networked] public PlayerRef Worker { get => default; private set { } }
     [Networked] public bool IsBeingWorkedOn { get => default; private set { } }
     [SerializeField] private bool GameStarted;
     #region Triggers:
     private void OnTriggerEnter(Collider other)
     {
+        if (!HasStateAuthority) return;
         var Pscript = other.GetComponent<Player_Test>();
         if (Pscript != null)
         {
@@ -28,9 +29,7 @@ public class CaptainWheelScript : NetworkBehaviour
             }
         }
     }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    private void Rpc_Lockworker([RpcTarget] PlayerRef PlayerWorking)
+    private void Rpc_Lockworker(PlayerRef PlayerWorking)
     {
         if (HasStateAuthority)
         {
@@ -38,9 +37,9 @@ public class CaptainWheelScript : NetworkBehaviour
             IsBeingWorkedOn = true;
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
+        if (!HasStateAuthority) return;
         var OtherComp = other.GetComponent<Player_Test>();
         if (OtherComp != null)
         {
@@ -50,8 +49,6 @@ public class CaptainWheelScript : NetworkBehaviour
             }
         }
     }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private void Rpc_UnlockWorker()
     {
         if (HasStateAuthority)
@@ -74,7 +71,6 @@ public class CaptainWheelScript : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        _DistanceCounter.SetText("Distancia Recorrida: " + _DistanceTravelled + " / " + _MaxDistance);
         if (!HasStateAuthority) return;
         if (IsBeingWorkedOn && GameStarted) 
         {
@@ -86,10 +82,12 @@ public class CaptainWheelScript : NetworkBehaviour
     {
         _DistanceTravelled = _DistanceTravelled + (1 * Runner.DeltaTime);
     }
-
     public void StartGame()
     {
         GameStarted = true;
     }
-
+    private void updateDisplay()
+    {
+        _DistanceCounter.SetText("Distancia Recorrida: " + _DistanceTravelled + " / " + _MaxDistance);
+    }
 }

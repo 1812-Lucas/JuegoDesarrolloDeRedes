@@ -80,7 +80,7 @@ public class GameManager : NetworkBehaviour
         var PlayerCount = Runner.SessionInfo.PlayerCount;
         if(this.HasStateAuthority)
         {
-            if(PlayerCount > 0)
+            if(PlayerCount > 1)
             {
                 Rpc_StartGame();
             }
