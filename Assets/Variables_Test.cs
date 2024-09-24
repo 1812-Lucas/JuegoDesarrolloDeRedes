@@ -28,11 +28,12 @@ public class VariablesTest : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!HasStateAuthority) return;
         var Pscript = other.GetComponent<Player_Test>();
-        if(Pscript != null)
+        if (Pscript != null)
         {
             var PlayerMachine = Pscript.Object.StateAuthority;
-            if(PlayerMachine != null && IsBeingWorkedOn == false)
+            if (PlayerMachine != null && IsBeingWorkedOn == false)
             {
                 Rpc_Lockworker(PlayerMachine);
             }
@@ -53,10 +54,11 @@ public class VariablesTest : NetworkBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!HasStateAuthority) return;
         var OtherComp = other.GetComponent<Player_Test>();
         if (OtherComp != null)
         {
-            if(OtherComp.Object.StateAuthority == Worker)
+            if (OtherComp.Object.StateAuthority == Worker)
             {
                 Rpc_UnlockWorker();
             }
