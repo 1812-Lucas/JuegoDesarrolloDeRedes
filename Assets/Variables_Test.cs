@@ -11,6 +11,8 @@ public class VariablesTest : NetworkBehaviour
 
     [SerializeField] float _TimeToRepair,_TotalRepairAmount;
 
+    public Room_Base _Room;
+
     public override void FixedUpdateNetwork()
     {
         if(!HasStateAuthority) return;
@@ -85,6 +87,16 @@ public class VariablesTest : NetworkBehaviour
     void LocalDisableObject()
     {
         _TimeToRepair = 0;
+        if(HasStateAuthority)
+        {
+            _Room.AddFlood(-0.1f);
+        }
         this.gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        if (!HasStateAuthority) return;
+        _Room.AddFlood(0.1f);
     }
 }

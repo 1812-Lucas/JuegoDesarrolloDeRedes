@@ -81,6 +81,11 @@ public class CaptainWheelScript : NetworkBehaviour
     private void RunLogic()
     {
         _DistanceTravelled = _DistanceTravelled + (1 * Runner.DeltaTime);
+
+        if(_DistanceTravelled >= _MaxDistance)
+        {
+            GameManager.Instance.RPC_Win();
+        }
     }
     public void StartGame()
     {

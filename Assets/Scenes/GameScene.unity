@@ -1844,6 +1844,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!1 &124006663
 GameObject:
@@ -3013,6 +3014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!114 &246046106
 MonoBehaviour:
@@ -15984,6 +15986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!1 &383914990
 GameObject:
@@ -32330,6 +32333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!1001 &596942400
 PrefabInstance:
@@ -36679,6 +36683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!1 &963194225
 GameObject:
@@ -79924,6 +79929,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1438031469}
   - component: {fileID: 1438031468}
+  - component: {fileID: 1438031471}
+  - component: {fileID: 1438031470}
   m_Layer: 0
   m_Name: WaterLevel
   m_TagString: Untagged
@@ -79947,7 +79954,9 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 131073
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 1438031471}
+  - {fileID: 1438031470}
 --- !u!4 &1438031469
 Transform:
   m_ObjectHideFlags: 0
@@ -79966,6 +79975,35 @@ Transform:
   - {fileID: 1357173039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1438031470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438031467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858c7c642876d5a4ebd88bd5d192ca68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _RaiseAmount: 0
+--- !u!114 &1438031471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438031467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1001 &1450350992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82432,6 +82470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TimeToRepair: 0
   _TotalRepairAmount: 10
+  _Room: {fileID: 0}
   _IsBeingWorkedOn: 0
 --- !u!1001 &1532667244
 PrefabInstance:

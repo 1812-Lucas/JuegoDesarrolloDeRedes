@@ -12,13 +12,17 @@ public class Room_Base : NetworkBehaviour
     [Networked] TickTimer RuptureTimer { get => default; set { } }
     [Networked] public int RuptureID { get => default; set { } }
 
-    [Networked] private bool _GameStarted { get => default; set { } } 
+    [Networked] private bool _GameStarted { get => default; set { } }
+
+    [Networked] private float FloodAmount { get => default; set { } }
 
     private void Awake()
     {
         foreach(var point in _RupturePoints)
         {
+            point._Room = this;
             point.gameObject.SetActive(false);
+
         }
     }
 
@@ -60,7 +64,31 @@ public class Room_Base : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
     public void Rpc_CreateRupture()
     {
+        if (FloodAmount < 0 && HasStateAuthority)
+        {
+            FloodAmount = 0;
+        }
         print("OHNO, WE HIT A ROCK " + RuptureID);
         _RupturePoints[RuptureID].gameObject.SetActive(true);
+    }
+
+    public void AddFlood(float WaterAdd)
+    {
+        if(HasStateAuthority)
+        {
+            FloodAmount += WaterAdd;
+            WaterRise();
+        }
+    }
+
+    private void WaterRise()
+    {
+        if (!HasStateAuthority) return;
+        if(FloodAmount <= 0)
+        {
+            FloodAmount = -1;
+        }
+
+        WaterLevelScript.Instance.ChangeWaterAmount(FloodAmount);
     }
 }

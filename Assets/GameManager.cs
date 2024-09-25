@@ -54,22 +54,12 @@ public class GameManager : NetworkBehaviour
     [Rpc]
     public void RPC_Defeat(PlayerRef player)
     {
-        if (player == Runner.LocalPlayer)
-        {
-            Defeat();
-        }
-
-        RemoveFromList(player);
-
-        if (playerList.Count == 1 && HasStateAuthority)
-        {
-            RPC_Win(playerList[0]);
-        }
+        Defeat();
     }
 
 
     [Rpc]
-    void RPC_Win([RpcTarget] PlayerRef player)
+    public void RPC_Win()
     {
         Win();
     }
@@ -80,7 +70,7 @@ public class GameManager : NetworkBehaviour
         var PlayerCount = Runner.SessionInfo.PlayerCount;
         if(this.HasStateAuthority)
         {
-            if(PlayerCount > 1)
+            if(PlayerCount >= 1)
             {
                 Rpc_StartGame();
             }
