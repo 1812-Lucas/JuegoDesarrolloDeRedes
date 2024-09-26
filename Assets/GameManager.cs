@@ -52,7 +52,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [Rpc]
-    public void RPC_Defeat(PlayerRef player)
+    public void RPC_Defeat()
     {
         Defeat();
     }

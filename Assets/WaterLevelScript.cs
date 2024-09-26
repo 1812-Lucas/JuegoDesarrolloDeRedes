@@ -7,6 +7,8 @@ public class WaterLevelScript : NetworkBehaviour
 {
     [Networked] float _WaterLevel { get => default; set {}}
     [SerializeField]float _RaiseAmount;
+    [SerializeField] float _LowerBound;
+    [SerializeField]float _HigherBound;
 
     public static WaterLevelScript Instance;
     private void Awake()
@@ -39,9 +41,13 @@ public class WaterLevelScript : NetworkBehaviour
     private void Rpc_RunLogic()
     {
         transform.position += Vector3.up * (_WaterLevel * Runner.DeltaTime);
-        if (this.transform.position.y <= -7)
+        if (this.transform.position.y <= _LowerBound)
         {
-            this.transform.position = new Vector3(this.transform.position.x,-7,this.transform.position.z);
+            this.transform.position = new Vector3(this.transform.position.x,_LowerBound,this.transform.position.z);
+        }
+        else if(this.transform.position.y > _HigherBound)
+        {
+            GameManager.Instance.RPC_Defeat();
         }
     }
 }

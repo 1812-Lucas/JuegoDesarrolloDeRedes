@@ -114,9 +114,6 @@ public class Player_Test : NetworkBehaviour
     private void Death() //quedaria hacer una funcion en la que reciba damage el player para que se active
     {
         Debug.Log("Player is dead");
-
-        GameManager.Instance.RPC_Defeat(Runner.LocalPlayer);
-
         Runner.Despawn(Object);
     }
 }

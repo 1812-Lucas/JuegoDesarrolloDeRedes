@@ -79988,6 +79988,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _RaiseAmount: 0
+  _LowerBound: -7
+  _HigherBound: 2.5
 --- !u!114 &1438031471
 MonoBehaviour:
   m_ObjectHideFlags: 0
