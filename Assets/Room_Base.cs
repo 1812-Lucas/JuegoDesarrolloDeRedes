@@ -1,11 +1,13 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Room_Base : NetworkBehaviour
 {
-    [SerializeField] private VariablesTest[] _RupturePoints;
+    [SerializeField] private List<VariablesTest> _RupturePoints = new List<VariablesTest>(20);
     [SerializeField] private float _DamageTimer;
     [SerializeField] private NetworkRunner _NetRunner;
 
@@ -15,16 +17,6 @@ public class Room_Base : NetworkBehaviour
     [Networked] private bool _GameStarted { get => default; set { } }
 
     [Networked] private float FloodAmount { get => default; set { } }
-
-    private void Awake()
-    {
-        foreach(var point in _RupturePoints)
-        {
-            point._Room = this;
-            point.gameObject.SetActive(false);
-
-        }
-    }
 
     public override void Spawned()
     {
@@ -58,7 +50,7 @@ public class Room_Base : NetworkBehaviour
 
     private void RandomizeDMGPoint()
     {
-        RuptureID=Random.Range(0,_RupturePoints.Length);
+        RuptureID=Random.Range(0,_RupturePoints.Count);
     }
 
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
@@ -90,5 +82,13 @@ public class Room_Base : NetworkBehaviour
         }
 
         WaterLevelScript.Instance.ChangeWaterAmount(FloodAmount);
+    }
+
+    public void AddBreakingPoint(VariablesTest NewPoint)
+    {
+        if (!_RupturePoints.Contains(NewPoint))
+        {
+            _RupturePoints.Add(NewPoint);
+        }
     }
 }

@@ -13,6 +13,17 @@ public class VariablesTest : NetworkBehaviour
 
     public Room_Base _Room;
 
+    public override void Spawned()
+    {
+        if (!HasStateAuthority) return;
+        _Room = GetComponentInParent<Room_Base>();
+        if(_Room != null)
+        {
+            _Room.AddBreakingPoint(this);
+            Rpc_RepairTime();
+        }
+    }
+
     public override void FixedUpdateNetwork()
     {
         if(!HasStateAuthority) return;

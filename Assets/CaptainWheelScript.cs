@@ -93,6 +93,6 @@ public class CaptainWheelScript : NetworkBehaviour
     }
     private void updateDisplay()
     {
-        _DistanceCounter.SetText("Distancia Recorrida: " + _DistanceTravelled + " / " + _MaxDistance);
+        _DistanceCounter.SetText((int)_DistanceTravelled + " / " + _MaxDistance);
     }
 }
