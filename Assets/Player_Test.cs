@@ -7,6 +7,7 @@ using UnityEngine;
 public class Player_Test : NetworkBehaviour
 {
     [Header("References")]
+    [SerializeField] private SkinnedMeshRenderer _SkinRenderer;
     [SerializeField] private Rigidbody _NetRb;
     [SerializeField] private Transform _CameraPos;
     [SerializeField] private CameraFollow _CamHolder;
@@ -46,6 +47,7 @@ public class Player_Test : NetworkBehaviour
                 _Mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
             }
             
+            _SkinRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
         }
 
         GameManager.Instance.AddToList(this);

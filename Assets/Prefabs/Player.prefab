@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4564678b3c0254140a5714470d6d5598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _SkinRenderer: {fileID: 721533606177625569}
   _NetRb: {fileID: 0}
   _CameraPos: {fileID: 1291531841917691306}
   _CamHolder: {fileID: 0}
@@ -107,7 +108,7 @@ MonoBehaviour:
   _Speed: 5
   _MaxSpeed: 5
   _JumpStrenght: 10
-  _SprintSpeed: 0
+  _SprintSpeed: 1.5
   _MoveDirection: {x: 0, y: 0}
   _Running: 0
 --- !u!114 &6900070436298960841
@@ -460,10 +461,6 @@ PrefabInstance:
       propertyPath: NetworkedBehaviours.Array.data[1]
       value: 
       objectReference: {fileID: 6929285428582393780}
-    - target: {fileID: 1079589741146658018, guid: 5bf81c1e7c3fa764c9ad1ad61f333094, type: 3}
-      propertyPath: m_CastShadows
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3480960997506092061, guid: 5bf81c1e7c3fa764c9ad1ad61f333094, type: 3}
       propertyPath: TotalWords
       value: 2
@@ -524,6 +521,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6929285428582393780}
   m_SourcePrefab: {fileID: 100100000, guid: 5bf81c1e7c3fa764c9ad1ad61f333094, type: 3}
+--- !u!137 &721533606177625569 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1079589741146658018, guid: 5bf81c1e7c3fa764c9ad1ad61f333094, type: 3}
+  m_PrefabInstance: {fileID: 358071198544462083}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7483613494103639248 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -2079751493751896621, guid: 5bf81c1e7c3fa764c9ad1ad61f333094, type: 3}
