@@ -24,13 +24,13 @@ public class VariablesTest : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (!HasStateAuthority) return;
         _Room = GetComponentInParent<Room_Base>();
-        if(_Room != null)
+        if (_Room != null)
         {
             _Room.AddBreakingPoint(this);
-            Rpc_RepairTime();
         }
+        if (!HasStateAuthority) return;
+        Rpc_RepairTime();
     }
 
     public override void FixedUpdateNetwork()
@@ -117,12 +117,18 @@ public class VariablesTest : NetworkBehaviour
 
     private void OnEnable()
     {
-        if(_WaterParticle != null && _HullbreachSFX != null &&_InGameRunning)
+        if (!HasStateAuthority) return;
+        Rpc_VisualStart();
+        _Room.AddFlood(0.1f);
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+   void Rpc_VisualStart()
+    {
+        if (_WaterParticle != null && _HullbreachSFX != null && _InGameRunning)
         {
             _WaterParticle.Play();
             _HullbreachSFX.Play();
         }
-        if (!HasStateAuthority) return;
-        _Room.AddFlood(0.1f);
     }
 }

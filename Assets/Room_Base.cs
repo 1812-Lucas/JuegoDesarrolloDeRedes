@@ -82,7 +82,6 @@ public class Room_Base : NetworkBehaviour
         {
             FloodAmount = -1;
         }
-
         WaterLevelScript.Instance.ChangeWaterAmount(FloodAmount);
     }
 
