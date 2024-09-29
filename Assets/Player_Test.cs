@@ -21,6 +21,11 @@ public class Player_Test : NetworkBehaviour
     [SerializeField] private Vector2 _MoveDirection;
     private bool _grounded;
     [SerializeField] bool _Running;
+
+    // events
+    public event System.Action<float> OnMovementEvent = delegate { };
+
+
     public void Grounded(bool IsGrounded)
     {
         _grounded = IsGrounded;
@@ -101,6 +106,7 @@ public class Player_Test : NetworkBehaviour
         Vector3.ClampMagnitude(_VelocityChange, _MaxSpeed * _SpeedModifier);
 
         _NetRb.AddForce(_VelocityChange, ForceMode.VelocityChange);
+        OnMovementEvent(_NetRb.velocity.magnitude);
 
     }
 

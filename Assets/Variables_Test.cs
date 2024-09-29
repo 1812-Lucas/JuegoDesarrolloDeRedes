@@ -11,7 +11,16 @@ public class VariablesTest : NetworkBehaviour
 
     [SerializeField] float _TimeToRepair,_TotalRepairAmount;
 
+    [SerializeField] ParticleSystem _WaterParticle;
+    [SerializeField] AudioSource _HullbreachSFX;
+
     public Room_Base _Room;
+    public bool _InGameRunning = false;
+
+    private void Awake()
+    {
+        _HullbreachSFX = GetComponent<AudioSource>();
+    }
 
     public override void Spawned()
     {
@@ -102,11 +111,17 @@ public class VariablesTest : NetworkBehaviour
         {
             _Room.AddFlood(-0.1f);
         }
+        _WaterParticle.Stop();
         this.gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
+        if(_WaterParticle != null && _HullbreachSFX != null &&_InGameRunning)
+        {
+            _WaterParticle.Play();
+            _HullbreachSFX.Play();
+        }
         if (!HasStateAuthority) return;
         _Room.AddFlood(0.1f);
     }

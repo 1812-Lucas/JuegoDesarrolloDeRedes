@@ -61,7 +61,9 @@ public class Room_Base : NetworkBehaviour
             FloodAmount = 0;
         }
         print("OHNO, WE HIT A ROCK " + RuptureID);
+        _RupturePoints[RuptureID]._InGameRunning = true;
         _RupturePoints[RuptureID].gameObject.SetActive(true);
+
     }
 
     public void AddFlood(float WaterAdd)
